@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}400 Bad Request – GymForce{% endblock %}
+{% block content %}
+<div class="container py-5 text-center">
+  <h1 class="display-1 fw-bold text-warning">400</h1>
+  <h3>Bad Request</h3>
+  <p class="text-muted">Your request could not be understood. Please check your input.</p>
+  <a href="{{ url_for('public.index') }}" class="btn btn-warning">Go Home</a>
+</div>
+{% endblock %}

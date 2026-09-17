@@ -1,0 +1,91 @@
+/* =====================================================
+   GymForce – Custom CSS
+   Stack: Bootstrap 5 + Font Awesome + Google Fonts
+   ===================================================== */
+
+:root {
+  --gf-primary:   #ffc107;   /* warning yellow – brand */
+  --gf-dark:      #1a1a2e;
+  --gf-dark-2:    #16213e;
+  --gf-accent:    #e94560;
+  --gf-text-muted: #6c757d;
+  --gf-radius:    0.75rem;
+  --gf-shadow:    0 4px 24px rgba(0,0,0,.10);
+}
+
+/* Base */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+h1, h2, h3, .navbar-brand {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar */
+.navbar-dark.bg-dark {
+  background-color: var(--gf-dark) !important;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: var(--gf-radius);
+  box-shadow: var(--gf-shadow);
+}
+
+.card-header {
+  border-radius: var(--gf-radius) var(--gf-radius) 0 0 !important;
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn-warning {
+  color: #fff;
+  background-color: var(--gf-primary);
+  border-color: var(--gf-primary);
+  font-weight: 600;
+}
+.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+  color: #fff;
+}
+
+/* Forms */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--gf-primary);
+  box-shadow: 0 0 0 0.2rem rgba(255,193,7,.25);
+}
+
+/* Status badges */
+.badge-pending  { background-color: #fd7e14; }
+.badge-active   { background-color: #198754; }
+.badge-expired  { background-color: #dc3545; }
+
+/* Utility */
+.text-brand { color: var(--gf-primary) !important; }
+.bg-brand   { background-color: var(--gf-primary) !important; }
+
+/* Hero section */
+.hero-section {
+  background: linear-gradient(135deg, var(--gf-dark) 0%, var(--gf-dark-2) 100%);
+  color: #fff;
+  padding: 6rem 0;
+}
+
+/* Dashboard stat cards */
+.stat-card {
+  border-left: 4px solid var(--gf-primary);
+}
+
+/* Table */
+.table thead th {
+  background-color: var(--gf-dark);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+}

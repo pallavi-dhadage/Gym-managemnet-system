@@ -1,113 +1,59 @@
-# ==========================================
-# Logs & Diagnostics
-# ==========================================
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# ==========================================
-# Node / Frontend Dependencies & Builds
-# ==========================================
-node_modules/
-*/node_modules/
-dist/
-dist-ssr/
-*.local
-.npm/
-.vite/
-.eslintcache
-.stylelintcache
-.turbo/
-coverage/
-
-# ==========================================
-# Python / Django Artifacts
-# ==========================================
+# ── Python / Flask ───────────────────────────────────────────
 __pycache__/
 */__pycache__/
+**/__pycache__/
 *.py[cod]
-*$py.class
 *.so
 .Python
 build/
-develop-eggs/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
+dist/
 *.egg-info/
-.installed.cfg
-*.egg
+.eggs/
 MANIFEST
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
 .coverage
 htmlcov/
+.tox/
 
-# ==========================================
-# Virtual Environments & Python Tooling
-# ==========================================
+# ── Virtual Environments ─────────────────────────────────────
 venv/
 .venv/
 env/
-.env/
 ENV/
-env.bak/
-venv.bak/
-.python-version
 
-# ==========================================
-# Environment Variables & Secrets
-# ==========================================
+# ── Environment / Secrets ────────────────────────────────────
 .env
 .env.*
 !.env.example
 
-# ==========================================
-# Databases & Local Runtime Storage
-# ==========================================
-*.sqlite3
-*.sqlite3-journal
+# ── Database ─────────────────────────────────────────────────
 *.db
 *.db-journal
-backend/db.sqlite3
-backend/gymforce.db
-staticfiles/
-media/
+*.sqlite3
+*.sqlite3-journal
 
-# ==========================================
-# IDEs & Code Editors
-# ==========================================
+# ── Flask / Uploads ──────────────────────────────────────────
+instance/
+static/uploads/
+
+# ── Logs (keep dir, not files) ───────────────────────────────
+logs/*.log
+
+# ── IDEs ─────────────────────────────────────────────────────
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
 .idea/
 *.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
-*.sublime-workspace
-*.sublime-project
 
-# ==========================================
-# OS Generated Files
-# ==========================================
+# ── OS ───────────────────────────────────────────────────────
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+
+# ── Node (legacy, no longer used) ───────────────────────────
+node_modules/
+dist-ssr/
+*.local

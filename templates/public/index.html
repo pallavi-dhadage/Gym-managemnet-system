@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}GymForce – Transform Your Body{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+  <h1 class="display-4 fw-bold">Welcome to <span class="text-warning">GymForce</span></h1>
+  <p class="lead text-muted">Your fitness journey starts here.</p>
+  <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg me-2">Join Now</a>
+  <a href="{{ url_for('public.enquiry') }}" class="btn btn-outline-secondary btn-lg">Enquire</a>
+</div>
+{% endblock %}
