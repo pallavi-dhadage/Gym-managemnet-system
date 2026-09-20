@@ -10,8 +10,9 @@ class Config:
     WTF_CSRF_TIME_LIMIT = 3600   # 1 hour
 
     # ── Database ───────────────────────────────────────────────────────────────
+    _base = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "sqlite:///gym.db"
+        f"sqlite:///{os.path.join(_base, 'gym.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
 

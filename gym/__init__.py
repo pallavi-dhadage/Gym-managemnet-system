@@ -27,8 +27,9 @@ def create_app(config_name: str | None = None) -> Flask:
     login_manager.login_message   = "Please log in to access this page."
     login_manager.login_message_category = "warning"
 
-    # ── Models (import so SQLAlchemy sees them for migrations) ──────────────────
-    from gym.models.user import User  # noqa: F401
+    # ── Models (import all so SQLAlchemy / Flask-Migrate sees every table) ──────
+    import gym.models  # noqa: F401  — triggers gym/models/__init__.py
+    from gym.models.user import User  # needed by user_loader below
 
     # ── Flask-Login user_loader ─────────────────────────────────────────────────
     @login_manager.user_loader
