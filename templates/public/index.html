@@ -1,10 +1,192 @@
 {% extends "base.html" %}
 {% block title %}GymForce – Transform Your Body{% endblock %}
+{% block main_class %}{% endblock %}
+
 {% block content %}
-<div class="text-center py-5">
-  <h1 class="display-4 fw-bold">Welcome to <span class="text-warning">GymForce</span></h1>
-  <p class="lead text-muted">Your fitness journey starts here.</p>
-  <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg me-2">Join Now</a>
-  <a href="{{ url_for('public.enquiry') }}" class="btn btn-outline-secondary btn-lg">Enquire</a>
-</div>
+
+<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <!-- Left: Headline -->
+      <div class="col-lg-6">
+        <span class="badge bg-warning text-dark fw-semibold mb-3 px-3 py-2">
+          <i class="fas fa-fire me-1"></i> India's Premier Fitness Club
+        </span>
+        <h1 class="display-4 fw-bold text-white lh-sm mb-4">
+          Transform Your Body,<br>
+          <span class="text-warning">Transform Your Life</span>
+        </h1>
+        <p class="lead text-white-50 mb-4">
+          World-class equipment · Expert trainers · Personalised diet &amp; workout plans.
+          Join thousands of members who've already made the change.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-4">
+            <i class="fas fa-dumbbell me-2"></i>Join Now
+          </a>
+          <a href="#plans" class="btn btn-outline-light btn-lg px-4">View Plans</a>
+        </div>
+      </div>
+
+      <!-- Right: Enquiry Form -->
+      <div class="col-lg-5 offset-lg-1">
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-4">
+            <h5 class="fw-bold mb-1">Get a Free Consultation</h5>
+            <p class="text-muted small mb-3">We'll call you back within 24 hours.</p>
+
+            <form method="POST" action="{{ url_for('public.enquiry') }}" novalidate>
+              {{ form.hidden_tag() }}
+
+              <div class="mb-3">
+                {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""),
+                             placeholder="Your name") }}
+                {% for e in form.name.errors %}
+                  <div class="invalid-feedback">{{ e }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="mb-3">
+                {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""),
+                              placeholder="Email address") }}
+                {% for e in form.email.errors %}
+                  <div class="invalid-feedback">{{ e }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="mb-3">
+                {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""),
+                              placeholder="Phone number") }}
+                {% for e in form.phone.errors %}
+                  <div class="invalid-feedback">{{ e }}</div>
+                {% endfor %}
+              </div>
+
+              <div class="mb-3">
+                {{ form.message(class="form-control", rows=2, placeholder="Any specific goal? (optional)") }}
+              </div>
+
+              <button type="submit" class="btn btn-warning w-100 fw-bold">
+                <i class="fas fa-paper-plane me-2"></i>Send Enquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS BAR ═══════════════════════════════════════════════════════════ -->
+<section class="bg-warning py-4">
+  <div class="container">
+    <div class="row text-center text-dark g-3">
+      <div class="col-6 col-md-3">
+        <div class="fw-bold fs-2">500+</div>
+        <div class="small">Active Members</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-bold fs-2">15+</div>
+        <div class="small">Expert Trainers</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-bold fs-2">50+</div>
+        <div class="small">Equipment Units</div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="fw-bold fs-2">5★</div>
+        <div class="small">Member Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FEATURES ════════════════════════════════════════════════════════════ -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Why Choose <span class="text-warning">GymForce</span>?</h2>
+      <p class="text-muted">Everything you need for your fitness journey under one roof.</p>
+    </div>
+    <div class="row g-4">
+      {% for icon, title, text in [
+        ('fa-dumbbell',    'World-Class Equipment',    'State-of-the-art cardio, strength, and functional training machines.'),
+        ('fa-user-tie',    'Expert Trainers',          'Certified coaches who design personalised programmes just for you.'),
+        ('fa-apple-alt',   'Diet &amp; Nutrition',        'Custom meal plans reviewed and updated regularly by our nutritionists.'),
+        ('fa-calendar-check','Flexible Plans',         'Monthly, quarterly, and annual memberships to suit every budget.'),
+      ] %}
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 text-center p-4 border-0 shadow-sm">
+          <div class="mb-3">
+            <span class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center"
+                  style="width:60px;height:60px;">
+              <i class="fas {{ icon }} fa-lg text-warning"></i>
+            </span>
+          </div>
+          <h6 class="fw-bold">{{ title }}</h6>
+          <p class="text-muted small mb-0">{{ text }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLANS ═══════════════════════════════════════════════════════════════ -->
+<section id="plans" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Membership <span class="text-warning">Plans</span></h2>
+      <p class="text-muted">Simple, transparent pricing. No hidden fees.</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+
+      {% for name, price, days, features, highlight in [
+        ('Monthly',   '₹999',  '30 days',  ['Full gym access','Locker room','Basic trainer support'], false),
+        ('Quarterly', '₹2499', '90 days',  ['Full gym access','Locker room','Diet plan','2 PT sessions'], true),
+        ('Annual',    '₹7999', '365 days', ['Full gym access','Locker room','Diet + workout plan','Unlimited PT'], false),
+      ] %}
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow {% if highlight %}border-top border-warning border-4{% endif %}">
+          {% if highlight %}
+          <div class="card-header bg-warning text-dark text-center fw-bold py-2">
+            <i class="fas fa-star me-1"></i>Most Popular
+          </div>
+          {% endif %}
+          <div class="card-body text-center p-4">
+            <h5 class="fw-bold text-uppercase letter-spacing-1">{{ name }}</h5>
+            <div class="display-5 fw-bold text-warning my-3">{{ price }}</div>
+            <p class="text-muted small">{{ days }}</p>
+            <ul class="list-unstyled text-start mb-4">
+              {% for f in features %}
+              <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>{{ f }}</li>
+              {% endfor %}
+            </ul>
+            <a href="{{ url_for('auth.register') }}"
+               class="btn {% if highlight %}btn-warning{% else %}btn-outline-warning{% endif %} w-100 fw-bold">
+              Get Started
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ═════════════════════════════════════════════════════════════════ -->
+<section class="hero-section py-5">
+  <div class="container text-center text-white">
+    <h2 class="fw-bold mb-3">Ready to Start Your Journey?</h2>
+    <p class="text-white-50 mb-4">Join GymForce today and get your first session free.</p>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg fw-bold px-5">
+      <i class="fas fa-dumbbell me-2"></i>Create Free Account
+    </a>
+  </div>
+</section>
+
 {% endblock %}

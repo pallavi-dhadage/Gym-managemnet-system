@@ -1,5 +1,60 @@
 {% extends "base.html" %}
 {% block title %}Enquiry – GymForce{% endblock %}
+
 {% block content %}
-<div class="container py-5"><h2>Enquiry Form</h2><p>Coming soon in Module 4.</p></div>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+
+      <div class="card shadow border-0">
+        <div class="card-header bg-dark text-white py-3">
+          <h5 class="mb-0"><i class="fas fa-envelope me-2 text-warning"></i>Send Us an Enquiry</h5>
+        </div>
+        <div class="card-body p-4">
+          <p class="text-muted mb-4">Fill in your details and our team will reach out within 24 hours.</p>
+
+          <form method="POST" action="{{ url_for('public.enquiry') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+              {{ form.name.label(class="form-label fw-semibold") }}
+              {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""),
+                           placeholder="Your full name") }}
+              {% for e in form.name.errors %}
+                <div class="invalid-feedback">{{ e }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.email.label(class="form-label fw-semibold") }}
+              {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""),
+                            placeholder="you@example.com") }}
+              {% for e in form.email.errors %}
+                <div class="invalid-feedback">{{ e }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              {{ form.phone.label(class="form-label fw-semibold") }}
+              {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""),
+                            placeholder="+91 98765 43210") }}
+              {% for e in form.phone.errors %}
+                <div class="invalid-feedback">{{ e }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-4">
+              {{ form.message.label(class="form-label fw-semibold") }}
+              {{ form.message(class="form-control", rows=4,
+                              placeholder="Tell us your fitness goals, preferred timing, etc.") }}
+            </div>
+
+            {{ form.submit(class="btn btn-warning w-100 fw-bold") }}
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Leads – Admin – GymForce{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-address-book fa-lg text-warning me-3"></i>
+      <h4 class="fw-bold mb-0">Leads Management</h4>
+    </div>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-sm btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i>Dashboard
+    </a>
+  </div>
+
+  <!-- Status Filter -->
+  <div class="mb-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('admin.leads') }}"
+       class="btn btn-sm {% if not status_filter %}btn-warning{% else %}btn-outline-secondary{% endif %}">
+      All
+    </a>
+    {% for s in ['new','contacted','converted','closed'] %}
+    <a href="{{ url_for('admin.leads', status=s) }}"
+       class="btn btn-sm {% if status_filter == s %}btn-warning{% else %}btn-outline-secondary{% endif %}">
+      {{ s | capitalize }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Leads Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>#ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Received</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads %}
+            <tr>
+              <td class="text-muted small">{{ lead.id }}</td>
+              <td class="fw-semibold">{{ lead.name }}</td>
+              <td>{{ lead.email }}</td>
+              <td>{{ lead.phone }}</td>
+              <td class="small text-muted" style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                {{ lead.message or '—' }}
+              </td>
+              <td>
+                <span class="badge
+                  {% if lead.status == 'new' %}bg-danger
+                  {% elif lead.status == 'contacted' %}bg-primary
+                  {% elif lead.status == 'converted' %}bg-success
+                  {% else %}bg-secondary{% endif %}">
+                  {{ lead.status | capitalize }}
+                </span>
+              </td>
+              <td class="small text-muted">{{ lead.created_at.strftime('%d %b %Y') }}</td>
+              <td>
+                <form method="POST"
+                      action="{{ url_for('admin.update_lead_status', lead_id=lead.id) }}"
+                      class="d-flex gap-1">
+                  {{ csrf_token() if csrf_token is defined else '' }}
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <select name="status" class="form-select form-select-sm" style="width:120px;">
+                    {% for s in valid_statuses | sort %}
+                    <option value="{{ s }}" {% if lead.status == s %}selected{% endif %}>
+                      {{ s | capitalize }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                  <button class="btn btn-sm btn-warning" type="submit"
+                          data-confirm="Update status for {{ lead.name }}?">
+                    <i class="fas fa-check"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="8" class="text-center text-muted py-4">No leads found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
