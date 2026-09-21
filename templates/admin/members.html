@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Members – Admin – GymForce{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-users fa-lg text-warning me-3"></i>
+      <h4 class="fw-bold mb-0">Members Management</h4>
+    </div>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-sm btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i>Dashboard
+    </a>
+  </div>
+
+  <!-- KPI pills -->
+  <div class="d-flex gap-3 mb-4 flex-wrap">
+    <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+      <i class="fas fa-clock me-1"></i>{{ pending_count }} Pending
+    </span>
+    <span class="badge bg-success fs-6 px-3 py-2">
+      <i class="fas fa-check-circle me-1"></i>{{ active_count }} Active
+    </span>
+  </div>
+
+  <!-- Status Filter -->
+  <div class="mb-4 d-flex gap-2 flex-wrap">
+    <a href="{{ url_for('admin.members') }}"
+       class="btn btn-sm {% if not status_filter %}btn-warning{% else %}btn-outline-secondary{% endif %}">All</a>
+    {% for s in ['PENDING','ACTIVE','EXPIRED','CANCELLED'] %}
+    <a href="{{ url_for('admin.members', status=s) }}"
+       class="btn btn-sm {% if status_filter == s %}btn-warning{% else %}btn-outline-secondary{% endif %}">
+      {{ s | capitalize }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Members Table -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Plan</th>
+              <th>Status</th>
+              <th>Start</th>
+              <th>Expires</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user, membership in rows %}
+            <tr>
+              <td class="fw-semibold">{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone or '—' }}</td>
+              <td>{{ membership.plan.name if membership else '—' }}</td>
+              <td>
+                {% if membership %}
+                <span class="badge
+                  {% if membership.status == 'ACTIVE' %}bg-success
+                  {% elif membership.status == 'PENDING' %}bg-warning text-dark
+                  {% elif membership.status == 'EXPIRED' %}bg-danger
+                  {% else %}bg-secondary{% endif %}">
+                  {{ membership.status }}
+                </span>
+                {% else %}
+                <span class="badge bg-secondary">No Plan</span>
+                {% endif %}
+              </td>
+              <td class="small text-muted">
+                {{ membership.start_date.strftime('%d %b %Y') if membership and membership.start_date else '—' }}
+              </td>
+              <td class="small {% if membership and membership.days_remaining is not none and membership.days_remaining <= 7 %}text-danger fw-bold{% else %}text-muted{% endif %}">
+                {{ membership.end_date.strftime('%d %b %Y') if membership and membership.end_date else '—' }}
+              </td>
+              <td>
+                {% if membership and membership.status == 'PENDING' %}
+                <form method="POST"
+                      action="{{ url_for('admin.activate_membership', membership_id=membership.id) }}"
+                      class="d-inline">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-success btn-sm fw-semibold"
+                          data-confirm="Activate membership for {{ user.name }}?">
+                    <i class="fas fa-check me-1"></i>Activate
+                  </button>
+                </form>
+                {% else %}
+                <span class="text-muted small">—</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="8" class="text-center text-muted py-4">No members found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

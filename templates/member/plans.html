@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+  {% if change_mode %}Change Plan{% else %}Choose a Plan{% endif %} – GymForce
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+  <div class="text-center mb-5">
+    {% if change_mode %}
+      <h2 class="fw-bold">Change Your <span class="text-warning">Plan</span></h2>
+      <p class="text-muted">
+        Currently on <strong>{{ current_plan.name }}</strong>.
+        Select a new plan below — changes apply before payment is verified.
+      </p>
+    {% else %}
+      <h2 class="fw-bold">Choose Your <span class="text-warning">Plan</span></h2>
+      <p class="text-muted">Pick the membership that suits your fitness journey.</p>
+    {% endif %}
+  </div>
+
+  <!-- Plan Cards -->
+  <div class="row g-4 justify-content-center mb-5">
+    {% for plan in plans %}
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow
+        {% if plan.duration_days == 90 %}border-top border-warning border-4{% endif %}">
+        {% if plan.duration_days == 90 %}
+        <div class="card-header bg-warning text-dark text-center fw-bold py-2">
+          <i class="fas fa-star me-1"></i>Most Popular
+        </div>
+        {% endif %}
+        <div class="card-body text-center p-4">
+          <h5 class="fw-bold text-uppercase mb-3">{{ plan.name }}</h5>
+          <div class="display-5 fw-bold text-warning mb-1">₹{{ plan.price }}</div>
+          <p class="text-muted small mb-3">{{ plan.duration_days }} days</p>
+          <p class="text-muted small mb-4">{{ plan.description }}</p>
+
+          <form method="POST"
+                action="{{ url_for('member.change_plan' if change_mode else 'member.plans') }}"
+                novalidate>
+            {{ form.hidden_tag() }}
+            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+            <button type="submit"
+                    class="btn {% if plan.duration_days == 90 %}btn-warning{% else %}btn-outline-warning{% endif %} w-100 fw-bold">
+              {% if change_mode %}Switch to {{ plan.name }}{% else %}Select {{ plan.name }}{% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center text-muted py-5">
+      <i class="fas fa-info-circle fa-2x mb-3"></i>
+      <p>No plans available. Please contact admin.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center">
+    <a href="{{ url_for('member.dashboard') }}" class="btn btn-outline-secondary">
+      <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

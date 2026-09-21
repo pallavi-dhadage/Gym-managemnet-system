@@ -10,6 +10,9 @@ def app():
     application = create_app("testing")
     with application.app_context():
         _db.create_all()
+        # Seed plans now that tables exist
+        from gym.utils.seed import seed_plans
+        seed_plans(application)
         yield application
         _db.drop_all()
 
@@ -19,7 +22,6 @@ def client(app):
     """Fresh test client + DB rollback per test — full isolation."""
     with app.test_client() as c:
         with app.app_context():
-            # Begin a nested transaction we can roll back after each test
             connection = _db.engine.connect()
             transaction = connection.begin()
             _db.session.bind = connection  # type: ignore[attr-defined]

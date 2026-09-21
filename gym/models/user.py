@@ -45,9 +45,10 @@ class User(UserMixin, db.Model):
     @property
     def pending_membership(self):
         """Return the latest PENDING membership or None."""
+        from gym.models.membership import Membership
         return (self.memberships
                 .filter_by(status="PENDING")
-                .order_by(self.__class__.created_at.desc())
+                .order_by(Membership.created_at.desc())
                 .first())
 
     def __repr__(self):

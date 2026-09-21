@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Payment Instructions – GymForce{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+
+      <div class="card border-0 shadow">
+        <div class="card-header bg-dark text-white py-3">
+          <h5 class="mb-0"><i class="fas fa-qrcode me-2 text-warning"></i>Payment Instructions</h5>
+        </div>
+        <div class="card-body p-4">
+
+          <!-- Plan Summary -->
+          <div class="alert alert-warning py-3 mb-4">
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold">Plan:</span>
+              <span>{{ membership.plan.name }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold">Amount:</span>
+              <span class="fw-bold fs-5">₹{{ membership.plan.price }}</span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="fw-semibold">Status:</span>
+              <span class="badge bg-warning text-dark">PENDING PAYMENT</span>
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <h6 class="fw-bold mb-3">How to Pay:</h6>
+          <ol class="mb-4">
+            <li class="mb-2">Scan the UPI QR code below <strong>or</strong> pay to UPI ID shown.</li>
+            <li class="mb-2">Enter the exact amount: <strong>₹{{ membership.plan.price }}</strong></li>
+            <li class="mb-2">Take a screenshot / note your <strong>UTR / Transaction ID</strong>.</li>
+            <li class="mb-2">Submit your UTR using the form below.</li>
+            <li>Admin will verify and activate your membership within 24 hours.</li>
+          </ol>
+
+          <!-- UPI Info placeholder (full QR in Module 5) -->
+          <div class="bg-light rounded p-3 text-center mb-4">
+            <i class="fas fa-qrcode fa-5x text-muted mb-2"></i>
+            <p class="text-muted small mb-1">UPI QR code will be displayed here</p>
+            <p class="fw-semibold mb-0">UPI ID: <span class="text-warning">gym@upi</span></p>
+          </div>
+
+          <div class="d-flex gap-3 justify-content-center">
+            <a href="{{ url_for('member.dashboard') }}" class="btn btn-outline-secondary">
+              <i class="fas fa-arrow-left me-1"></i>Dashboard
+            </a>
+            <a href="{{ url_for('member.change_plan') }}" class="btn btn-outline-warning">
+              Change Plan
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

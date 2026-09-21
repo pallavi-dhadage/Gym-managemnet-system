@@ -74,6 +74,10 @@ def create_app(config_name: str | None = None) -> Flask:
     # ── Logging ────────────────────────────────────────────────────────────────
     _configure_logging(app)
 
+    # ── Seed default data ──────────────────────────────────────────────────────
+    from gym.utils.seed import seed_plans
+    seed_plans(app)
+
     return app
 
 
